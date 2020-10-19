@@ -20,8 +20,11 @@ jobs:
           target_branch: staging
           github_token: ${{ secrets.REPO_TOKEN }}
 
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@master
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@master
+        with:
+          status: ${{ job.status }}
+#          notify_when: 'failure'
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: forge-staging
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
